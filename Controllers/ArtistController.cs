@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-using MongoDB.Driver;
 using MoonLyrics.Data.Collections;
 using MoonLyrics.Dto;
 using MoonLyrics.Repositories;

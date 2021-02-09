@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace MoonLyrics.Dto
+﻿namespace MoonLyrics.Dto
 {
     public class MusicDto
     {
         public string Id { get; set; }
         public string Name { get; set; }
+        public string Lyric { get; set; }
         public string Gender { get; set; }
         public string[] Feats { get; set; }
         public string Composer { get; set; }
