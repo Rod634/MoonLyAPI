@@ -67,6 +67,20 @@ namespace MoonLyrics.Controllers
             }
         }
 
+        [HttpGet("{Artist}/{id}")]
+        public ActionResult GetMusicByArtistId(String id)
+        {
+            try
+            {
+                var music = _musicRepository.GetArtistMusics(id);
+                return Ok(music);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(404, "Music not Found");
+            }
+        }
+
         [HttpPut]
         public ActionResult UpdateMusic([FromBody] MusicDto obj)
         {

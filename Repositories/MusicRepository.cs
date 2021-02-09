@@ -54,6 +54,19 @@ namespace MoonLyrics.Repositories
             }
         }
 
+        public List<Music> GetArtistMusics(string id)
+        {
+            try
+            {
+                var music = _musicCollection.Find(Builders<Music>.Filter.Where(x => x.ArtistId == id)).ToList();
+                return music;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public void Post(Music music)
         {
             try
