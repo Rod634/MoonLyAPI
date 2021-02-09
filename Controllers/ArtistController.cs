@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
 using MoonLyrics.Data.Collections;
 using MoonLyrics.Dto;
+using MoonLyrics.Repositories;
 
 namespace MoonLyrics.Controllers
 {
@@ -11,14 +12,11 @@ namespace MoonLyrics.Controllers
     [ApiController]
     public class ArtistController : ControllerBase
     {
-        Data.MongoDB _mongoDB;
-        
-        IMongoCollection<Artist> _artistCollection;
+        private readonly IArtistRepository _artistRepository;
 
-        public ArtistController(Data.MongoDB mongoDB)
+        public ArtistController(IArtistRepository artistRepository)
         {
-            _mongoDB = mongoDB;
-            _artistCollection = _mongoDB.DB.GetCollection<Artist>(typeof(Artist).Name.ToLower());
+            _artistRepository = artistRepository;
         }
 
         [HttpPost]
@@ -28,13 +26,13 @@ namespace MoonLyrics.Controllers
             {
                 var artist = new Artist(obj.Name, obj.MusicalGender, obj.Title, obj.Latitude, obj.Longitude);
 
-                _artistCollection.InsertOne(artist);
+                _artistRepository.Post(artist);
 
                 return StatusCode(201, "Artist Added Sucessfuly!!");
             }
             catch(Exception ex)
             {
-                return StatusCode(201, "Artist Was not added, sorry");
+                return StatusCode(406, "Artist Was not added, sorry");
             }
             
         }
@@ -44,7 +42,7 @@ namespace MoonLyrics.Controllers
         {
             try
             {
-                var artist = _artistCollection.Find(Builders<Artist>.Filter.Empty).ToList();
+                var artist = _artistRepository.Get();
                 return Ok(artist);
             }
             catch (Exception ex)
@@ -53,12 +51,12 @@ namespace MoonLyrics.Controllers
             }
         }
 
-        [HttpGet]
-        public ActionResult GetArtistById([FromBody] String id)
+        [HttpGet("{id}")]
+        public ActionResult GetArtistById(String id)
         {
             try
             {
-                var artist = _artistCollection.Find(Builders<Artist>.Filter.Where(x => x.Id == id));
+                var artist = _artistRepository.GetById(id);
                 return Ok(artist);
             }
             catch (Exception ex)
@@ -72,25 +70,25 @@ namespace MoonLyrics.Controllers
         {
             try
             {
-                var artist = new Artist(obj.Name, obj.MusicalGender, obj.Title, obj.Latitude, obj.Longitude);
+                var artist = new Artist(obj.Name, obj.MusicalGender, obj.Title, obj.Latitude, obj.Longitude, obj.Id);
 
-                _artistCollection.ReplaceOne(Builders<Artist>.Filter.Where(x => x.Id == obj.Id), artist);
+                _artistRepository.Update(artist);
 
-                return StatusCode(201, "Artist Updated sucessfully!!");
+                return StatusCode(200, "Artist Updated sucessfully!!");
             }
             catch (Exception ex)
             {
-                return StatusCode(201, "Artist not Updated");
+                return StatusCode(400, "Artist not Updated");
             }
         }
 
-        [HttpDelete]
-        public ActionResult DeleteArtist([FromBody] string id)
+        [HttpDelete("{id}")]
+        public ActionResult DeleteArtist(string id)
         {
             try
             {
-                _artistCollection.DeleteOne(Builders<Artist>.Filter.Where(x => x.Id == id));
-                return StatusCode(201, "Artist Deletd sucessfully");
+                _artistRepository.Delete(id);
+                return StatusCode(200, "Artist Deletd sucessfully");
             }
             catch(Exception ex)
             {

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Conventions;
+using MongoDB.Bson.Serialization.IdGenerators;
 using MongoDB.Driver;
 using MoonLyrics.Data.Collections;
 using System;
@@ -36,6 +37,7 @@ namespace MoonLyrics.Data
                 BsonClassMap.RegisterClassMap<Artist>(i =>
                 {
                     i.AutoMap();
+                    i.MapIdMember(c => c.Id).SetIdGenerator(StringObjectIdGenerator.Instance);
                     i.SetIgnoreExtraElements(true);
                 });
             }
@@ -45,6 +47,7 @@ namespace MoonLyrics.Data
                 BsonClassMap.RegisterClassMap<Music>(i =>
                 {
                     i.AutoMap();
+                    i.MapIdMember(c => c.Id).SetIdGenerator(StringObjectIdGenerator.Instance);
                     i.SetIgnoreExtraElements(true);
                 });
             }

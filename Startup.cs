@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using MoonLyrics.Repositories;
 
 namespace MoonLyrics
 {
@@ -26,6 +27,7 @@ namespace MoonLyrics
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddScoped<Data.MongoDB>();
+            services.AddTransient<IArtistRepository, ArtistRepository>();
             services.AddControllers();
         }
 
