@@ -17,7 +17,8 @@ API in .Net Core using MongoDB as database, Injection of dependencies, repositor
 
 ---
 
-First you will need connect your mongo database in appsettings.json.
+First you will need connect your mongo database in appsettings.json:
+https://docs.atlas.mongodb.com/connect-to-cluster/.
 
 Now you can follow this:
 
