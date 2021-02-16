@@ -1,19 +1,19 @@
 <h1 align="center">
-    Moonlyrics API
+    Moonlyrics API 🎹
 </h1>
 
-## Description
+## 🎈 Description
 ---
 API in .Net Core using MongoDB as database, Injection of dependencies, repository pattern and Collections. This API allows the adding of artists, musics and your lyrics.
 
-## Structure and tools
+## 🔧 Structure and tools
 
 ---
  - Mongo Atlas 
  - MongoDrive
  - .Net Core 3.1
 
-## How to download the project
+## 🌏 How to download the project
 
 ---
 
